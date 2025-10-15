@@ -58,64 +58,51 @@
     }
 
     /* Product section */
-    .product-section {
-      padding: 50px 5%;
-      text-align: center;
-    }
-
-    .product-section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    #no-top-products {
-      display: none;
-      font-style: italic;
-      color: #555;
-      margin-bottom: 20px;
-    }
+.product-section {
+  padding: 50px 5%;
+  text-align: center;
+}
 
 /* Product grid */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Always 3 per line */
-  gap: 20px;
-  justify-items: center;
-  padding: 20px;
+  grid-template-columns: repeat(3, minmax(250px, 1fr)); /* Always 3 boxes */
+  gap: 30px;
+  justify-content: center;
+  align-items: start;
 }
 
 /* Product box */
 .product {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  width: 100%;
-  max-width: 300px;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
 }
 
 .product:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* Product image */
 .product img {
   width: 100%;
-  height: 230px;
+  height: 260px;
   object-fit: cover;
   border-bottom: 1px solid #eee;
 }
 
 /* Product info */
 .product-info {
-  padding: 10px;
+  padding: 12px;
 }
 
 .product-title {
+  font-size: 1.1rem;
   font-weight: 600;
   color: #333;
   margin-bottom: 6px;
@@ -124,7 +111,41 @@
 .product-price {
   color: #ff6600;
   font-weight: 500;
+  font-size: 1rem;
 }
+
+/* Responsive but always 3 per line */
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .product img {
+    height: 180px;
+  }
+
+  .product-title {
+    font-size: 0.9rem;
+  }
+
+  .product-price {
+    font-size: 0.85rem;
+  }
+}
+
 
     /* Fullscreen viewer */
     .fullscreen-view {
@@ -284,4 +305,5 @@
 
 </body>
 </html>
+
 
