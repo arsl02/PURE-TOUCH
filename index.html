@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pure Touch</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: #ffe5b4; /* light peach */
+      scroll-behavior: smooth;
+    }
+
+    header {
+      text-align: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      margin: 0 20px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff6600;
+    }
+
+    .home {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .home h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* Banner section */
+  .banner {
+  display: block;
+  margin: 40px auto;
+  max-width: 600px; /* Adjust this number to make banner smaller or larger */
+  width: 80%;
+  height: auto;
+  border-radius: 12px;
+
+    }
+
+    /* Product section */
+    .product-section {
+      padding: 50px 5%;
+      text-align: center;
+    }
+
+    .product-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #no-top-products {
+      display: none;
+      font-style: italic;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 10px;
+    }
+
+    .product-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      color: #ff6600;
+      font-weight: 500;
+    }
+
+    /* Fullscreen viewer */
+    .fullscreen-view {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .fullscreen-view img {
+      max-width: 90%;
+      max-height: 70%;
+      border-radius: 12px;
+    }
+
+    .description {
+      color: #fff;
+      margin-top: 15px;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .close-btn {
+      background: #ff6600;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    /* About section */
+    .about {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 30px;
+      margin-top: 50px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* still 3 per line */
+      }
+    }
+
+    @media (max-width: 600px) {
+      .product img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#top-products">Top Product</a>
+    </nav>
+  </header>
+
+  <section id="home" class="home">
+    <h1>PURE TOUCH</h1>
+    <p>Experience the essence of purity and elegance with our exclusive collection.</p>
+  </section>
+
+  <img src="BANNNER.png" alt="Pure Touch Banner" class="banner" />
+
+  <section id="top-products" class="product-section">
+    <h2>Top Rated Products</h2>
+    <p id="no-top-products">No top-rated products this month.</p>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <div class="about">
+    <h3>About & Contact</h3>
+    <p>About Pure Touch — Showcasing Nature’s Purest Beauty</p>
+    <p><strong>Phone:</strong> 03208298053</p>
+    <p><strong>Email:</strong> faizanshahnawaz3448@gmail.com</p>
+  </div>
+
+  <!-- Fullscreen product viewer -->
+  <div class="fullscreen-view" id="fullscreenView">
+    <img id="fullscreenImg" src="" alt="Product" />
+    <p class="description">Description goes here...</p>
+    <button class="close-btn" onclick="closeFullscreen()">Close</button>
+  </div>
+
+  <script>
+    const productGrid = document.getElementById("productGrid");
+    const fullscreenView = document.getElementById("fullscreenView");
+    const fullscreenImg = document.getElementById("fullscreenImg");
+    const noTopProducts = document.getElementById("no-top-products");
+
+    const totalProducts = 36;
+    const monthKey = new Date().getMonth();
+    const clickDataKey = "productClicks";
+
+    let productClicks = JSON.parse(localStorage.getItem(clickDataKey)) || {};
+    if (productClicks.month !== monthKey) {
+      productClicks = { month: monthKey, clicks: {} };
+      localStorage.setItem(clickDataKey, JSON.stringify(productClicks));
+    }
+
+    // Generate products
+    const products = [];
+    for (let i = 1; i <= totalProducts; i++) {
+      products.push({
+        id: i,
+        title: "Product " + i,
+        price: "Rs. 0",
+        image: `${i}.jpg`,
+        clicks: productClicks.clicks[i] || 0
+      });
+    }
+
+    // Sort by clicks
+    products.sort((a, b) => b.clicks - a.clicks);
+    const hasClicks = products.some(p => p.clicks > 0);
+    if (!hasClicks) noTopProducts.style.display = "block";
+
+    // Add products to grid
+    products.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${p.image}" alt="${p.title}">
+        <div class="product-info">
+          <div class="product-title">${p.title}</div>
+          <div class="product-price">${p.price}</div>
+        </div>
+      `;
+      div.addEventListener("click", () => openFullscreen(p));
+      productGrid.appendChild(div);
+    });
+
+    function openFullscreen(product) {
+      fullscreenView.style.display = "flex";
+      fullscreenImg.src = product.image;
+      productClicks.clicks[product.id] = (productClicks.clicks[product.id] || 0) + 1;
+      localStorage.setItem(clickDataKey, JSON.stringify(productClicks));
+    }
+
+    function closeFullscreen() {
+      fullscreenView.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
