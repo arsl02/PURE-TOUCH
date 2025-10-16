@@ -1,10 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Contact Button</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title> PURE TOUCH </title>
   <style>
+/* Bottom Bar Container */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #FFFFFF; /* white background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    /* WhatsApp Button */
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: #25D366;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      box-shadow: 0 0 20px #25D366;
+      transition: all 0.3s ease;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #1ebc57;
+      box-shadow: 0 0 30px #1ebc57;
+      transform: scale(1.05);
+    }
+
+    /* WhatsApp Icon */
+    .whatsapp-btn img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+
+    /* Add bottom space so content isn’t hidden behind the bar */
+    body {
+      margin-bottom: 80px;
+      font-family: Arial, sans-serif;
+    }
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
@@ -283,8 +334,26 @@
       fullscreenView.style.display = "none";
     }
   </script>
+
+   <!-- Your Website Content -->
+  <div style="padding: 20px;">
+    <h1>Welcome to My Website</h1>
+    <p>This is where your content goes...</p>
+  </div>
+
+  <!-- Floating Bottom WhatsApp Bar -->
+  <div class="bottom-bar">
+    <a href="https://wa.me/923208298053?text=Hey!%20I%20want%20to%20contact%20you%20about%20your%20work."
+       target="_blank"
+       class="whatsapp-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+      Contact
+    </a>
+  </div>
+
 </body>
 </html>
+
 
 
 
